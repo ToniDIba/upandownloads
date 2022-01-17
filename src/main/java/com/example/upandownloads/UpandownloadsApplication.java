@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 
 @SpringBootApplication
 public class UpandownloadsApplication implements CommandLineRunner {
+
     @Resource
     FilesStorageService storageService;
 
@@ -18,6 +19,7 @@ public class UpandownloadsApplication implements CommandLineRunner {
         SpringApplication.run(UpandownloadsApplication.class, args);
     }
 
+    //Deja la carpeta local "uploads" vacía antes de empezar.
     @Override
     public void run(String... arg) throws Exception {
         storageService.deleteAll();

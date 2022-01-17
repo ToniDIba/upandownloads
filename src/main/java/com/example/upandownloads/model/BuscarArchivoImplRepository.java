@@ -12,17 +12,15 @@ import javax.persistence.*;
 @Service
 public class BuscarArchivoImplRepository implements IBuscarArchivo {
 
-
-
     @Autowired
     IarchivoRepositorio iarchivoRepositorio;
 
-    Archivo archivo = new Archivo();
+    Archivo archivo;
 
     @Override
-    public Archivo buscarArchivoId(int id) throws Exception {
+    public String buscarArchivoId(int id) throws Exception {
         archivo = iarchivoRepositorio.findById(id).orElseThrow(() -> new NotFoundExceptionToni("No encuentro id: " + id));
-        return archivo;
+        return archivo.getFileName();
     }
 
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class AnadirArchivoImplRepository implements IanadirArchivo {
+public class AnadirArchivoImpl implements IanadirArchivo {
     @Autowired
     IvalidacionesService validacionesService;
 

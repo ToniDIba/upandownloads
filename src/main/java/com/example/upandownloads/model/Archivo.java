@@ -1,6 +1,8 @@
 package com.example.upandownloads.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,7 +22,7 @@ public class Archivo {
     public Date uploadDate;
 
 
-    Archivo() { }
+    public Archivo() { }
 
     public Archivo(String fn, String mm, long fs, Date ud) {
 

@@ -1,9 +1,16 @@
 package com.example.upandownloads.controller;
 
 
+
+// https://www.bezkoder.com/spring-boot-file-upload/
+
+
+import com.example.upandownloads.model.Archivo;
 import com.example.upandownloads.model.FileInfo;
 import com.example.upandownloads.message.ResponseMessage;
 import com.example.upandownloads.service.FilesStorageService;
+import com.example.upandownloads.service.IanadirArchivo;
+import com.example.upandownloads.service.IarchivoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -13,45 +20,39 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
-//@CrossOrigin("http://localhost:8085")
 public class FilesController {
 
     @Autowired
     FilesStorageService storageService;
-
-/*
-    @PostMapping("/uno/dos")
-    @ResponseBody
-    public String addFoo(@RequestParam(name = "id") String fooId,    @RequestParam String name) {
-        return "ID: " + fooId + " Name: " + name;
-    }
-*/
+    private Object PropertiesReader;
 
 
-    // https://www.bezkoder.com/spring-boot-file-upload/
+    @Autowired
+    IanadirArchivo anadirArchivo;
 
-    //@PostMapping("/enviar")
-    @PostMapping("/uno/dos")
-    @ResponseBody
-    //public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
-    //public ResponseEntity<ResponseMessage> uploadFile(@RequestParam(name = "file") MultipartFile file) {
-   // public void addFoo(@RequestParam(name = "id") String fooId, @RequestParam String name) { <<<< este funciona
-    public void uploadFile(@RequestParam(name = "id") String fooId, @RequestParam String name) {
 
-        //public String                              addFoo(@RequestParam(name = "id") ) {
 
-        System.out.println("Paso por aquí");
-/*
+    @PostMapping("/enviar")
+    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam(name = "file") MultipartFile file) {
+
         String message = "";
+
         try {
             storageService.save(file);
 
-            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+            long longi = file.getSize();
+
+            message = "Uploaded the file successfully: " + file.getOriginalFilename() + ". Mime type: " + file.getContentType() + ". Size: " + longi;
+
+            Archivo miArchivo = new Archivo(file.getOriginalFilename(),file.getContentType(),file.getSize(),new Date());
+            anadirArchivo.anyadirArchivo(miArchivo); //Hace un Repository.add
+
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         } catch (Exception e) {
             message = "Could not upload the file: " + file.getOriginalFilename() + "!";
@@ -78,11 +79,12 @@ public class FilesController {
         Resource file = storageService.load(filename);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-    }*/
-
-
-
-
     }
 
+
 }
+
+
+
+
+

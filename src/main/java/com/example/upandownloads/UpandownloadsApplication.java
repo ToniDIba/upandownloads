@@ -1,9 +1,11 @@
 package com.example.upandownloads;
 
 import com.example.upandownloads.service.FilesStorageService;
+import com.example.upandownloads.service.IarchivoRepositorio;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 import javax.annotation.Resource;
 
@@ -21,5 +23,7 @@ public class UpandownloadsApplication implements CommandLineRunner {
         storageService.deleteAll();
         storageService.init();
     }
+
+
 
 }

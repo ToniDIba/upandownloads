@@ -17,22 +17,23 @@ public class Archivo {
     public int id;
 
     public String fileName;
-    public String mime;
+    public String mime; //Texto, imagen, sonido, video...
     public long fileSize;
     public Date uploadDate;
 
 
-    public Archivo() { }
-
     public Archivo(String fn, String mm, long fs, Date ud) {
 
-        //this.id_file = id;
+        //id es autoIncremental
         this.fileName = fn;
         this.mime = mm;
         this.fileSize = fs;
         this.uploadDate = ud;
 
     }
+
+
+    public Archivo() { }
 
 
 }

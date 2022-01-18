@@ -14,9 +14,6 @@ public class ListaArchivosImpl implements IlistaArchivos {
     IarchivoRepositorio archivoRepositorio;
 
     @Override
-    public List<Archivo> buscarTodos() {
-        return archivoRepositorio.findAll();
-    }
-
+    public List<Archivo> buscarTodos() {  return archivoRepositorio.findAll();  }  //Retorna todas las filas que hay en la tabla H2
 
 }

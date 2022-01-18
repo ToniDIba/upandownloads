@@ -1,6 +1,7 @@
 package com.example.upandownloads.service;
 
 
+import com.example.upandownloads.exception.ExceptionToni;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,10 @@ import java.util.stream.Stream;
 
 
 @Service
-public class FilesStorageServiceImpl implements FilesStorageService {
+public class MtmtoArchivosServiceImpl implements MtmtoArchivosService {
 
+    //Carpeta local en donde dejo los archivos "subidos" dentro del directorio raiz del proyecto:
+    // .../IdeaProjectsª/upandownloads/uploads
     private final Path root = Paths.get("uploads");
 
     @Override
@@ -25,21 +28,30 @@ public class FilesStorageServiceImpl implements FilesStorageService {
         try {
             Files.createDirectory(root);
         } catch (IOException e) {
-            throw new RuntimeException("No se ha podido inicializar la carpeta de las subidas");
+            throw new ExceptionToni("No se ha podido inicializar la carpeta de las subidas 'uploads'.");
         }
     }
 
+
+
+
+    // UpLoad
     @Override
-    public void save(MultipartFile file) {
+    public void sube(MultipartFile file) {
         try {
             Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
         } catch (Exception e) {
-            throw new RuntimeException("No se ha podido guardar el archivo. Error: " + e.getMessage());
+            throw new ExceptionToni("No se ha podido guardar el archivo. Error: " + e.getMessage());
         }
     }
 
+
+
+
+
+    //DownLoad
     @Override
-    public Resource load(String filename) {
+    public Resource baja(String filename, int id) {
         try {
             Path file = root.resolve(filename);
             Resource resource = new UrlResource(file.toUri());
@@ -47,26 +59,28 @@ public class FilesStorageServiceImpl implements FilesStorageService {
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
-                throw new RuntimeException("No se ha podido leer el archivo");
+                if(id == 0) { //Si id = 0, es que han informado un nombre de archivo y no un "id"
+                    throw new ExceptionToni("No he podido leer el archivo " + filename + " (comprueba que exista en carpeta local 'uploads')");
+                }
+                else {
+                    throw new ExceptionToni("No he podido obtener nombre archivo asociado al id: " + id + " (comprueba que archivo exista en carpeta local 'uploads')");
+                }
             }
         } catch (MalformedURLException e) {
             throw new RuntimeException("Error: " + e.getMessage());
         }
     }
 
+
+
+
+    //Borra el contenido de la carpeta local  "Upload" antes de empezar
     @Override
-    public void deleteAll() {
+    public void borraTodos() {
         FileSystemUtils.deleteRecursively(root.toFile());
     }
 
-    @Override
-    public Stream<Path> loadAll() {
-        try {
-            return Files.walk(this.root, 1).filter(path -> !path.equals(this.root)).map(this.root::relativize);
-        } catch (IOException e) {
-            throw new RuntimeException("No se han podido cargar los archivos");
-        }
-    }
+
 }
 
 

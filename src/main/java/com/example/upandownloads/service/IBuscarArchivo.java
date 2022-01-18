@@ -1,11 +1,5 @@
 package com.example.upandownloads.service;
 
-import com.example.upandownloads.model.Archivo;
 
-public interface IBuscarArchivo {
-
-    //Cumplimentar la clase ...ExceptionHandler
-    public String buscarArchivoId(int id) throws Exception;
-    //public Archivo buscarArchivo(String name) throws Exception;
-
-}
+//A través del ID, recupero el nombre del archivo para "bajarlo"
+public interface IBuscarArchivo {  public String buscarArchivoId(int id) throws Exception;  }

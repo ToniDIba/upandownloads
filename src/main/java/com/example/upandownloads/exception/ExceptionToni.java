@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 
 //Cumplimentar la clase ...ExceptionHandler
-public class NotFoundExceptionToni extends RuntimeException {
+public class ExceptionToni extends RuntimeException {
 
-    public NotFoundExceptionToni(String message) {
+    public ExceptionToni(String message) {
         super(message);
     }
 

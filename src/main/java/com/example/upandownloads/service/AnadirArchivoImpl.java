@@ -6,23 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+// Guarda fila en la tabla
 @Service
 public class AnadirArchivoImpl implements IanadirArchivo {
-    @Autowired
-    IvalidacionesService validacionesService;
 
     @Autowired
     IarchivoRepositorio archivoRepositorio;
 
 
     @Override
-    public void anyadirArchivo(Archivo archivo) {
-
-        validacionesService.validarInfoArchivo(archivo);
-        archivoRepositorio.save(archivo);
-
-
-    }
-
+    public void anyadirArchivo(Archivo archivo) { archivoRepositorio.save(archivo); }
 
 }
